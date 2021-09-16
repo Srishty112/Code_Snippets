@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int tsp(int cpos, int visited, vector<vector<int>>&dp, int n, vector<vector<int>>&distance)
+{
+    int v= (1<<cpos);  visited= (visited | v);
+
+    if(dp[visited][cpos] !=0)return dp[visited][cpos];
+    int allv= (1<<n)-1;
+    if(visited==allv){return (dp[visited][cpos]= distance[cpos][0]);}
+
+    int cost=INT_MAX;
+    for(int i=0; i<n;i++)
+    {
+        int k=(1<<i);
+        if((visited&k )!=0) continue;
+        int a= distance[cpos][i];
+        int b= tsp(i, visited, dp, n, distance);
+        cost=min(cost, a+b);
+    }
+    return (dp[visited][cpos]= cost); 
+}
+
+int main()
+{
+    vector<vector<int>>distance= {{0,20,42,25},{20,0,30,34},{42,30,0,10},{25,34,10,0}};
+    int n=4;
+    int visited=0;
+    int k=(1<<n)-1;
+    vector<vector<int>>dp(k+1, vector<int>(n,0));
+    int cost= tsp(0, visited, dp, n, distance);
+    cout<<cost<<" ";
+    return 0;
+}
