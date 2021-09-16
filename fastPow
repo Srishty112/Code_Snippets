@@ -1,0 +1,12 @@
+long long fastpow(long long a, long long b, long long MOD)
+{
+    int res = 1;
+    while (b)
+    {
+        if (b & 1 !=0)
+            res = (res * a)%MOD;
+        b = b >> 1;     
+        a = (a * a)%MOD;
+    }
+    return res;
+}
